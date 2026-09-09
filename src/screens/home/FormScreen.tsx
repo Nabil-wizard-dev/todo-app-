@@ -8,38 +8,47 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import FloatingButton from '../../components/FloatingButton';
 import Header from '../../components/Header';
 import Body from '../../components/Body';
+import { RootStackParamList } from '../../../App';
+import { useTodos } from '../../context/TodoContext';
 
 
 const FormScreen = () => {
 
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   const [title , setTitle] = useState('');
   const [category, setCategory] = useState('');
-  const [date, setDate] = useState<string>();
+  const [date, setDate] = useState<string>('');
 
-  interface Todo {
-  title: string;
-  category: string;
-  date: string | undefined;}
-
-  const [dotos, setTodos] = useState<Todo[]>([]);
+  
+  const { addTodo } = useTodos();
 
   const onSubmit = ()=>{
-    const data={
+    const data={ 
       title:title,
       category:category,
       date:date
     }
 
-    console.log('data:', dotos);
-
-    setTodos((prevTodos) => [...prevTodos, data]);
+    
+    // setTodos((prevTodos) => [...prevTodos, data]);
+    addTodo(data);
+    // console.log('data:', dotos);
     
     Alert.alert("new to do",`Title: ${title}\nCategory: ${category}\nDate: ${date}`)
+
+    // Vider le formulaire après le submit 
+    setTitle(''); 
+    setCategory(''); 
+    setDate('');
+
+    // aller vers le home
+    navigation.navigate('Home'); 
 
   };
 

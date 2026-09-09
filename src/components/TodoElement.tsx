@@ -1,36 +1,48 @@
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, Pressable } from 'react-native';
 import React from 'react';
 
 interface TodoAttributs {
   title: string;
   category: string;
   date: string;
+  deleted:false;
+  idDone:false;
 }
 
-const TodoList = ({
+const TodoElement = ({
   title = 'Terminer mon travail du jrs',
   category = 'Tache',
   date = '9/9/2026',
+  deleted = false,
+  isDone=false,
 }) => {
+ 
+const onclick=() =>{
+  deleted = true;
+  
+} 
+
   return (
-    <View style={styles.card}>
-      <TouchableOpacity style={styles.cercle} />
+    <Pressable onPress={()=>{console.log('pressed')}} style={styles.card}>
+      <TouchableOpacity onPress={()=>{isDone=true}} style={styles.cercle} />
 
       <View style={styles.content}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{title}</Text> 
 
         <Text style={styles.category}>{category}</Text>
         <Text>{date}</Text>
       </View>
 
-      <TouchableOpacity style={styles.delete}>
+      <TouchableOpacity
+       style={styles.delete}
+       onPress={()=>{onclick()}}>
         <Text style={styles.deleteIcon}>🗑️</Text>
       </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 };
 
-export default TodoList;
+export default TodoElement;
 
 const styles = StyleSheet.create({
   card: {
