@@ -5,13 +5,12 @@ import Body from '../../components/Body';
 import TodoList from '../../components/TodoList';
 import FloatingButton from '../../components/FloatingButton';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppParamList } from '../../../App';
+// import { AppParamList } from '../../../App';
 import { useNavigation } from '@react-navigation/native';
 
-type Props = NativeStackScreenProps<AppParamList>;
+// type Props = NativeStackScreenProps<AppParamList>;
 
 const HomeScreen = () => {
-  const navigate = useNavigation<Props>();
   return (
     <View style={{ flex: 1 }}>
       <Header title="TODO Header" />
@@ -28,7 +27,7 @@ const HomeScreen = () => {
         </View>
 
       </Body>
-        <FloatingButton route={()=>{navigate.navigation.push('Form')}}></FloatingButton>
+        <FloatingButton></FloatingButton>
     </View>
   );
 };

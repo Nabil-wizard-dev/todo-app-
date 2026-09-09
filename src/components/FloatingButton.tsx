@@ -1,20 +1,22 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { AppParamList } from '../../App';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-// import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-// import { RootStackParamList } from '../../App';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 
-type Props = {route: ( )=>void};
+// export type RootStackParamList = {
+//   Home: undefined,
+//   Form: undefined,
+// }
 
-const FloatingButton = ({route}:Props) => {
+const FloatingButton = () => {
 
-  // const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View>
       <TouchableOpacity style={styles.button}
-      onPress={()=>route()}>
+      onPress={()=>navigation.navigate('Form')}
+      >
         <Text style={styles.Text}>+</Text>
       </TouchableOpacity>
    </View>

@@ -18,12 +18,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import FormScreen from './src/screens/home/FormScreen';
 
-export type AppParamList = {
+export type RootStackParamList = {
   Home: undefined,
   Form: undefined,
 }
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
