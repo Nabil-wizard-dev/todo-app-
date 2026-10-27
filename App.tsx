@@ -20,7 +20,7 @@ import { TodoProvider } from './src/context/TodoContext';
 
 export type RootStackParamList = {
   Home: undefined;
-  Form: undefined;
+  Form: { todoId?: string }|undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

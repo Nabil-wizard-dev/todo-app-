@@ -6,52 +6,63 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import FloatingButton from '../../components/FloatingButton';
 import Header from '../../components/Header';
 import Body from '../../components/Body';
 import { RootStackParamList } from '../../../App';
 import { useTodos } from '../../context/TodoContext';
 
-
 const FormScreen = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
-  const [title , setTitle] = useState('');
+  const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [date, setDate] = useState<string>('');
 
-  
-  const { addTodo } = useTodos();
+  const route = useRoute<RouteProp<RootStackParamList, 'Form'>>();
+  const { todoId } = route.params ?? {};
+  const { todos, addTodo, updateTodo } = useTodos();
 
-  const onSubmit = ()=>{
-    const data={ 
-      title:title,
-      category:category,
-      date:date
+  const existingTodo = todos.find(t => t.id === todoId);
+
+  useEffect(() => {
+    if (existingTodo) {
+      setTitle(existingTodo.title);
+      setCategory(existingTodo.category);
+      setDate(existingTodo.date);
+    }
+  }, [existingTodo]);
+
+  const onSubmit = () => {
+    const data = { title, category, date, };
+
+    if (todoId) {
+      updateTodo(todoId, data);
+    } else {
+      addTodo(data);
     }
 
-    
-    // setTodos((prevTodos) => [...prevTodos, data]);
-    addTodo(data);
-    // console.log('data:', dotos);
-    
-    Alert.alert("new to do",`Title: ${title}\nCategory: ${category}\nDate: ${date}`)
+    Alert.alert(
+      'new to do',
+      `Title: ${title}\nCategory: ${category}\nDate: ${date}`,
+    );
 
-    // Vider le formulaire après le submit 
-    setTitle(''); 
-    setCategory(''); 
+    // Vider le formulaire après le submit
+    setTitle('');
+    setCategory('');
     setDate('');
 
     // aller vers le home
-    navigation.navigate('Home'); 
-
+    navigation.navigate('Home');
   };
-
 
   return (
     <View style={{ flex: 1 }}>
@@ -59,7 +70,14 @@ const FormScreen = () => {
       <Body>
         <View style={{ padding: 20 }}>
           {/* Titre */}
-          <Text style={{ marginBottom: 8, fontSize: 16, fontWeight: '600',color:'white'}}>
+          <Text
+            style={{
+              marginBottom: 8,
+              fontSize: 16,
+              fontWeight: '600',
+              color: 'white',
+            }}
+          >
             Title
           </Text>
 
@@ -71,7 +89,7 @@ const FormScreen = () => {
               borderWidth: 1,
               // placeholder ='white',
               borderColor: '#ccc',
-              color:"#fff",
+              color: '#fff',
               borderRadius: 8,
               paddingHorizontal: 12,
               paddingVertical: 10,
@@ -80,18 +98,25 @@ const FormScreen = () => {
           />
 
           {/*  categorie */}
-          <Text style={{ marginBottom: 8, fontSize: 16, fontWeight: '600' ,color:'white'}}>
+          <Text
+            style={{
+              marginBottom: 8,
+              fontSize: 16,
+              fontWeight: '600',
+              color: 'white',
+            }}
+          >
             Category
           </Text>
 
           <TextInput
-           onChangeText={setCategory}
+            onChangeText={setCategory}
             value={category}
             placeholder="la categorie"
             style={{
               borderWidth: 1,
               borderColor: '#ccc',
-              color:"#fff",
+              color: '#fff',
               borderRadius: 8,
               paddingHorizontal: 12,
               paddingVertical: 10,
@@ -100,7 +125,14 @@ const FormScreen = () => {
           />
 
           {/* Date */}
-          <Text style={{ marginBottom: 8, fontSize: 16, fontWeight: '600',color:'white' }}>
+          <Text
+            style={{
+              marginBottom: 8,
+              fontSize: 16,
+              fontWeight: '600',
+              color: 'white',
+            }}
+          >
             Date
           </Text>
 
@@ -112,7 +144,7 @@ const FormScreen = () => {
             style={{
               borderWidth: 1,
               borderColor: '#ccc',
-              color:"#fff",
+              color: '#fff',
               borderRadius: 8,
               paddingHorizontal: 12,
               paddingVertical: 10,

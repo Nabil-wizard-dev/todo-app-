@@ -32,13 +32,19 @@ const HomeScreen = () => {
         </View>
 
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
-          <TodoElement/>
-          {todos.map((todo, index)=>(
+          {/* <TodoElement/> */}
+          {todos
+          .sort((a, b) => Number(b.id) - Number(a.id))
+          .filter((todo) => !todo.isDeleted)
+          .map((todo, index)=>(
             <TodoElement
-            key={index }
+            key={index}
+            id={todo.id}
             title={todo.title}
             category={todo.category}
             date={todo.date}
+            isDone={todo.isDone}
+            isDeleted={todo.isDeleted}
             />
           ))}
         </ScrollView>
